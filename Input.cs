@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 class Program
 {
     static void Main()
@@ -9,7 +10,7 @@ class Program
         File.WriteAllText("input.txt", paragraph);
         Console.WriteLine("paragraph Save in input.txt");
         string text = File.ReadAllText("input.txt");//read paragraph from file
-        string[] words = text.Split(new char[] { ' ', '\n', '\r', 't' }, StringSplitOptions.RemoveEmptyEntries);//Split paragraph into words
+        string[] words = text.Split(new char[] { ' ', '\n'}, StringSplitOptions.RemoveEmptyEntries);//Split paragraph into words
         Console.Write("Enter number of Words per File : ");
         int numWordsPerFile;
         while (true)
@@ -44,6 +45,22 @@ class Program
         }
         Console.WriteLine($"Paragraph fragmented into {numFiles} files successfully");
 
+
+        string[] fragmentFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt")
+                                          .Where(f => Path.GetFileName(f) != "input.txt") // exclude input.txt
+                                          .OrderBy(f => f) // sort properly: 001.txt, 002.txt...
+                                          .ToArray();
+
+        using (StreamWriter sw = new StreamWriter("output.txt"))
+        {
+            foreach (string file in fragmentFiles)
+            {
+                string content = File.ReadAllText(file);
+                sw.Write(content + " "); // add space between fragments
+            }
+        }
+
+        Console.WriteLine("All fragments combined into output.txt successfully!");
 
     }
     
