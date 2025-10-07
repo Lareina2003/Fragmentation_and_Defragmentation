@@ -14,21 +14,21 @@ namespace FileFragmentationMVC.Controllers
 
         public void Run()
         {
-            // 1. Get paragraph
+            // Get paragraph
             string paragraph = view.GetParagraph();
 
-            // 2. Fragment
+            // Fragment
             Fragmenter fragmenter = new Fragmenter(paragraph);
             int numWordsPerFile = view.GetNumberOfWords(fragmenter.Words.Length);
             string[] fragments = fragmenter.Fragment(numWordsPerFile);
             view.ShowMessage($"Paragraph fragmented into {fragments.Length} files successfully.");
 
-            // 3. Defragment
+            // Defragment
             Defragmenter defragmenter = new Defragmenter();
             defragmenter.CombineFragments(fragments);
             view.ShowMessage("All fragments combined into output.txt successfully!");
 
-            // 4. Compare
+            // Compare
             bool isEqual = FileManager.CompareFiles("input.txt", "output.txt");
             view.ShowMessage(isEqual ? "SUCCESS: Input and Output files are equal."
                                      : "FAILURE: Something went wrong!");
@@ -48,7 +48,7 @@ namespace FileFragmentationMVC.Controllers
             if (view.ConfirmDeletion())
             {
                 FileManager.DeleteFiles(fragments, "output.txt");
-                view.ShowMessage("All fragment files deleted. Ready for next run!");
+                view.ShowMessage("All fragment files deleted.");
             }
 
             
