@@ -36,13 +36,19 @@ namespace FileFragmentationMVC.Controllers
             // Display all fragment files
             view.ShowFragmentFiles(fragments);
 
-            // Ask user which file to display
-            int fileNumber = view.GetFileNumber("Enter the fragment number to view its content: ", fragments.Length);
-            string selectedFile = fragments[fileNumber - 1];
-            string fileContent = System.IO.File.ReadAllText(selectedFile);
+            // Keep asking user until they say no
+            while (view.ConfirmAction("Do you want to view a fragment file? (y/n): "))
+            {
+                int fileNumber = view.GetFileNumber("Enter the fragment number to view its content: ", fragments.Length);
+                string selectedFile = fragments[fileNumber - 1];
+                string fileContent = System.IO.File.ReadAllText(selectedFile);
 
-            // Show file content
-            view.ShowFileContent(selectedFile, fileContent);
+                view.ShowFileContent(selectedFile, fileContent);
+            }
+
+            //view.ShowMessage("No more files selected. Moving on...");
+
+
 
             //  Cleanup
             if (view.ConfirmDeletion())
@@ -50,9 +56,6 @@ namespace FileFragmentationMVC.Controllers
                 FileManager.DeleteFiles(fragments, "output.txt");
                 view.ShowMessage("All fragment files deleted.");
             }
-
-            
-
         }
     }
 }

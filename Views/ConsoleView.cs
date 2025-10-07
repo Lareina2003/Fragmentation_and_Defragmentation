@@ -72,6 +72,14 @@ namespace FileFragmentationMVC.Views
             return choice == "y";
         }
 
-        
+        public bool ConfirmAction(string message)
+        {
+            Console.Write(message);
+            string choice = Console.ReadLine()?.Trim().ToLower();
+            return choice == "y" || choice == "yes";
+        }
+
+
+
     }
 }
