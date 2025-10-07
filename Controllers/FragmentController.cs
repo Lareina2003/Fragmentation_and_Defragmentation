@@ -33,12 +33,26 @@ namespace FileFragmentationMVC.Controllers
             view.ShowMessage(isEqual ? "SUCCESS: Input and Output files are equal."
                                      : "FAILURE: Something went wrong!");
 
-            // 5. Cleanup
+            // Display all fragment files
+            view.ShowFragmentFiles(fragments);
+
+            // Ask user which file to display
+            int fileNumber = view.GetFileNumber("Enter the fragment number to view its content: ", fragments.Length);
+            string selectedFile = fragments[fileNumber - 1];
+            string fileContent = System.IO.File.ReadAllText(selectedFile);
+
+            // Show file content
+            view.ShowFileContent(selectedFile, fileContent);
+
+            //  Cleanup
             if (view.ConfirmDeletion())
             {
                 FileManager.DeleteFiles(fragments, "output.txt");
                 view.ShowMessage("All fragment files deleted. Ready for next run!");
             }
+
+            
+
         }
     }
 }
