@@ -24,10 +24,10 @@ namespace FileFragmentationMVC.Models
 
             for (int i = 0; i < numFiles; i++)
             {
-                int start = i * numWordsPerFile;
-                int end = Math.Min(start + numWordsPerFile, totalWords);
-                string[] chunk = new string[end - start];
-                Array.Copy(Words, start, chunk, 0, end - start);
+                int start = i * numWordsPerFile;//starting word index for this fragment file
+                int end = Math.Min(start + numWordsPerFile, totalWords);//ending word index, making sure it doesn’t go past the last word.
+                string[] chunk = new string[end - start];//Creates a temporary array to store the words for this fragment.
+                Array.Copy(Words, start, chunk, 0, end - start);//Copies the correct range of words from the full paragraph into chunk
 
                 string filename = $"{(i + 1).ToString().PadLeft(digits, '0')}.txt";
                 File.WriteAllText(filename, string.Join(" ", chunk));

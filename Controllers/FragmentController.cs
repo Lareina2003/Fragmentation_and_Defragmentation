@@ -46,7 +46,7 @@ namespace FileFragmentationMVC.Controllers
                 view.ShowFileContent(selectedFile, fileContent);
             }
 
-            //view.ShowMessage("No more files selected. Moving on...");
+         
 
 
 
