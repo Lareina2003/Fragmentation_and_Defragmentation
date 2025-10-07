@@ -11,7 +11,22 @@ class Program
         string text = File.ReadAllText("input.txt");//read paragraph from file
         string[] words = text.Split(new char[] { ' ', '\n', '\r', 't' }, StringSplitOptions.RemoveEmptyEntries);//Split paragraph into words
         Console.Write("Enter number of Words per File : ");
-        int numWordsPerFile = int.Parse(Console.ReadLine());
+        int numWordsPerFile;
+        while (true)
+        {
+            Console.Write("Enter number of Words per File: ");
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out numWordsPerFile) && numWordsPerFile > 0)
+            {
+                break; // valid number, exit the loop
+            }
+            else
+            {
+                Console.WriteLine("Invalid input! Please enter only positive numbers.");
+            }
+        }
+
 
         //Fragment text into Multiple files
         int totalWords = words.Length;
