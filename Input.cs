@@ -10,7 +10,7 @@ class Program
         File.WriteAllText("input.txt", paragraph);
         Console.WriteLine("paragraph Save in input.txt");
         string text = File.ReadAllText("input.txt");//read paragraph from file
-        string[] words = text.Split(new char[] { ' ', '\n'}, StringSplitOptions.RemoveEmptyEntries);//Split paragraph into words
+        string[] words = text.Split(new char[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);//Split paragraph into words
         Console.Write("Enter number of Words per File : ");
         int numWordsPerFile;
         while (true)
@@ -34,7 +34,7 @@ class Program
         int numFiles = (int)Math.Ceiling((double)totalWords / numWordsPerFile);
         int digits = numFiles.ToString().Length;
 
-        for (int i =0; i<numFiles; i++)
+        for (int i = 0; i < numFiles; i++)
         {
             int start = i * numWordsPerFile;
             int end = Math.Min(start + numWordsPerFile, totalWords);
@@ -62,6 +62,33 @@ class Program
 
         Console.WriteLine("All fragments combined into output.txt successfully!");
 
+
+        string original = File.ReadAllText("input.txt").Trim();
+        string combined = File.ReadAllText("output.txt").Trim();
+
+        if (original == combined)
+        {
+            Console.WriteLine("SUCCESS: Input and Output files are equal .");
+        }
+        else
+        {
+            Console.WriteLine("FAILURE: Something went wrong! Input and Output do not match.");
+        }
+
+
+
+        Console.WriteLine("Do you want to delete all fragment files for next run? (y/n): ");
+        string choice = Console.ReadLine().ToLower();
+
+        if (choice == "y")
+        {
+            foreach (string file in fragmentFiles)
+            {
+                File.Delete(file);
+            }
+            File.Delete("output.txt"); // optional
+            Console.WriteLine("All fragment files deleted. Ready for next run!");
+        }
     }
-    
+
 }
